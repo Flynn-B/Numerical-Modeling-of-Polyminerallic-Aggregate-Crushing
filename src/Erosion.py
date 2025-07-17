@@ -1,6 +1,6 @@
 """
     Module erodes noise of a certain area in the the image
-    - Flynn Basehart
+    - FB
 """
 
 import numpy as np

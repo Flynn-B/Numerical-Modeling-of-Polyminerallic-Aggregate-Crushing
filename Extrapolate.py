@@ -16,7 +16,7 @@ import src.ColorSpace as ColorSpace
 import src.Erosion as Erosion
 import src.ColorMapping as ColorMapping
 
-#Part II of code, apply correlations found in Part I, can use just saved pickle data
+# Part II of code, apply correlations found in Part I, can use just saved pickle data
 # Load the dictionary from the pickle file, change path if needed
 with open('data\data_rgb_values_to_target.pkl', 'rb') as file:
     rgb_values_to_target = pickle.load(file)
@@ -24,7 +24,7 @@ with open('data\data_rgb_values_to_target.pkl', 'rb') as file:
 erosion_dilation_combo = (3,4)
 denoise_combo = (5,6)
 
-applied_img_path = "Important\Sample2Surfaces\Granite1.jpg"
+applied_img_path = "Important\Sample2Surfaces\Granite2.jpg"
 applied_img = io.imread(applied_img_path)
 
 img_save : bool = False
@@ -44,7 +44,7 @@ target_intensities_to_color = {
     128:(233,148,68), #130 in other
     248:(64,179,221) } #250 in other
 
-#Import repeat functions from file TODO: simplify and unify code
+# Import repeat functions from file TODO: simplify and unify code
 def rgb_to_grayscale(image):
     #return np.dot(image[..., :3], [0.2989, 0.5870, 0.1140])
     return image[..., 0] * 0.2989 + image[..., 1] * 0.5870 + image[..., 2] * 0.1140
@@ -53,7 +53,7 @@ def euclidean_distance(color1, color2):
     return np.sqrt(np.sum((np.array(color1) - np.array(color2))**2))
 
 
-#Create 3D Color Space Visualization
+# Create 3D Color Space Visualization
 ColorSpace.create_space(rgb_values_to_target, target_intensities_to_color)
 
 # Ensure the image is in the correct format (0 to 255 range)
@@ -62,14 +62,13 @@ if applied_img.max() <= 1:
 
 rgb_values_to_target = rgb_values_to_target
 
-# Get all unique RGB values in the original image
 unique_colors = np.unique(applied_img.reshape(-1, 3), axis=0)
 
 
 # Build the KDTree with scaled RGB values
-weights = np.array([1.0, 1.0, 1.0])  # Scale blue more heavily
+weights = np.array([1.0, 1.0, 1.0])
 color_keys = list(rgb_values_to_target.keys())
-color_array = np.array(color_keys) * weights  # Element-wise scaling
+color_array = np.array(color_keys) * weights
 
 # Build KDTree using the scaled values
 color_tree = KDTree(color_array)
@@ -93,15 +92,15 @@ for color in unique_colors:
 img = applied_img.tolist()
 
 # Loop through the image and modify the pixels based on the RGB values
-for i in range(len(img)):  # Iterate over rows
-    for j in range(len(img[i])):  # Iterate over columns
+for i in range(len(img)): 
+    for j in range(len(img[i])): 
         pixel_value = tuple(img[i][j])  # Get the pixel value (RGB as a tuple)
         
         # Check if the pixel RGB value exists in the defined dictionary
         if pixel_value in rgb_values_to_target:
-            target_intensity = rgb_values_to_target[pixel_value]  # Get the target intensity
+            target_intensity = rgb_values_to_target[pixel_value]
             # Replace the pixel with the target intensity (make it a gray value)
-            img[i][j] = [target_intensity] * 3  # Apply the same target intensity to R, G, B
+            img[i][j] = [target_intensity] * 3
 
 #TODO MOVE FUNCTION
 def link_dark_region_edges_with_path_check(

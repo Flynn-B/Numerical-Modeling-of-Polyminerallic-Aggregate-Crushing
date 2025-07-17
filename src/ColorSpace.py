@@ -1,16 +1,16 @@
 """
     Module displays the color space of the input color_dictionary gathered from the surface image or created within the correlation code. 
-    - Flynn Basehart
+    - FB
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Example usage: create_space(rgb_values_to_target, target_intensities_to_color)
 def create_space(color_dictionary, target_intensities_to_color):
 
-    # Example: your dictionary of RGB tuples to greyscale values
-    color_dictionary = color_dictionary
-    target_intensities_to_color=target_intensities_to_color
+    color_dictionary = color_dictionary # Surface image colors
+    target_intensities_to_color=target_intensities_to_color # Mineralogy colors
 
     # Extract RGB and greyscale values into lists
     rgb_values = np.array(list(color_dictionary.keys()), dtype=np.uint8)

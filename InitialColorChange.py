@@ -11,7 +11,7 @@ image = io.imread('Important\XRFSample2BulkyBiotite.jpg')  # RGB format
 new_image = image.copy()
 
 # Color replacements: (old RGB) -> (new RGB)
-color_map = {
+color_map : dict[tuple[int, int, int], tuple[int, int, int]] = {
     (109, 89, 160): (0, 0, 0), #Biotite
     (102, 139, 89): (90, 84, 84), #Feldspar
     (64, 179, 221): (250, 250, 250), #Plagioclase
@@ -19,9 +19,9 @@ color_map = {
 }
 
 # Tolerance per channel
-tolerance = 10
+tolerance : int = 10
 
-def fuzzy_match(mask_img, target_rgb, tolerance):
+def fuzzy_match(mask_img, target_rgb, tolerance) -> np.ndarray:
     lower = np.maximum(0, np.array(target_rgb) - tolerance)
     upper = np.minimum(255, np.array(target_rgb) + tolerance)
     return np.all((mask_img >= lower) & (mask_img <= upper), axis=-1)

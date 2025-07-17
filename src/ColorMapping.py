@@ -7,11 +7,18 @@ def rgb_to_grayscale(image):
 
 def apply_color_mapping(image, intensity_to_color):
     """
-    Transforms a grayscale or RGB image into a color-mapped RGB image using a given intensity-to-RGB mapping.
+    Transforms a grayscale into a color-mapped RGB image using a given intensity-to-RGB mapping.
 
     Parameters:
-        image (np.ndarray): Input image (grayscale or RGB).
+        image (np.ndarray): Input image (grayscale).
         intensity_to_color (dict): Dictionary mapping intensity values (int) to RGB tuples.
+
+        Example intensity_to_color:
+            intensity_to_color = {
+                0:(109,89,160),
+                88:(102,139,89),
+                128:(233,148,68), 
+                248:(64,179,221) } 
 
     Returns:
         np.ndarray: Color-transformed RGB image (uint8).
@@ -20,8 +27,9 @@ def apply_color_mapping(image, intensity_to_color):
     # Ensure the input image is in uint8 format
     image = image.astype(np.uint8)
 
-    # Convert RGB to grayscale if needed
+    # Convert RGB to grayscale if needed (avoid this !!)
     if image.ndim == 3 and image.shape[2] == 3:
+        print("Warning: RGB image likely will not work")
         image_gray = rgb_to_grayscale(image)
         image_gray = np.clip(image_gray, 0, 255).astype(np.uint8)
     else:

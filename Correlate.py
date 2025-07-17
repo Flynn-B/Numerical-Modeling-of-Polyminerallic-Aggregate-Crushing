@@ -3,7 +3,7 @@
     Saves results in a pickle file containing the dictionary rgb_values_to_target.
     This code (Part I), then passes the saved dictionary to Part II to extrapolate and apply onto unseen images.    
     IMPORTANT: The original and ideal images must overlap as perfectly as possible.
-    - Flynn Basehart
+    - FB
 """
 
 import numpy as np
@@ -17,8 +17,8 @@ import src.Erosion as Erosion
 import src.ColorMapping as ColorMapping
 
 # Load original and ideal images
-original_img = io.imread('Important\\SURFACESample2Section.jpg') #RGB Surface image
-ideal_img = io.imread('Important\\XRFSample2Section.jpg') #Minerology Map
+original_img = io.imread('Important\\SURFACESample2Section.jpg') # RGB Surface image
+ideal_img = io.imread('Important\\XRFSample2Section.jpg') # Mineralogy Map
 
 # Convert to images to uint8 if needed
 if original_img.dtype != np.uint8:
@@ -36,7 +36,6 @@ target_intensities_to_color = {
     128:(255,255,1), #130 in other
     248:(0,255,1) } #250 in other
 
-# Function to convert RGB to grayscale
 def rgb_to_grayscale(image):
     #return np.dot(image[..., :3], [0.2989, 0.5870, 0.1140])
     return image[..., 0] * 0.2989 + image[..., 1] * 0.5870 + image[..., 2] * 0.1140
@@ -47,11 +46,10 @@ unique_colors = np.unique(original_img.reshape(-1, 3), axis=0)
 # Dictionary to store RGB to target intensity mappings
 rgb_values_to_target = {}
 
-# Function to compute the Euclidean distance between two RGB colors
 def euclidean_distance(color1, color2):
     return np.sqrt(np.sum((np.array(color1) - np.array(color2))**2))
 
-# Function to compute the average difference between two images
+# Compute the average difference between two images
 def average_difference(array1, array2):
     if array1.shape != array2.shape:
         raise TypeError("Arrays are not the same size")
@@ -61,7 +59,7 @@ def average_difference(array1, array2):
     normalized = np.clip(difference, 0, 255).astype(np.uint8)
     return np.mean(normalized) / 255
 
-# Function to find the best target intensity match for a given RGB color
+# Find the best target intensity match for a given RGB color
 def find_best_rgb_match(color, img_rgb, ideal_rgb):
     print(f"Processing color: {color}")
     mask = np.all(img_rgb == color, axis=-1)
@@ -72,7 +70,6 @@ def find_best_rgb_match(color, img_rgb, ideal_rgb):
     best_choice = 0 #Grey value
     best_diff = 1.0 #Lowest statistical difference
 
-    # Instead of copying image each time, identify and save masked pixels
     masked_indices = np.where(mask)
     original_pixels = img_rgb[masked_indices]
 
@@ -85,7 +82,6 @@ def find_best_rgb_match(color, img_rgb, ideal_rgb):
             best_choice = target
             print(f"  Found better target {test_color} with diff {diff:.4f}")
 
-        # Restore original masked pixels for next iteration
         img_rgb[masked_indices] = original_pixels
 
     # Store the best target intensity for the color in the mapping
@@ -113,7 +109,6 @@ def find_best_morphology(img_rgb, ideal_rgb):
             eroded = grey_erosion(gray_img, size=(erode_size, erode_size))
             opened = grey_dilation(eroded, size=(dilate_size, dilate_size))
 
-            # Convert back to 3-channel image
             test_img = np.stack([opened] * 3, axis=-1)
 
             diff = average_difference(test_img, ideal_rgb)
@@ -156,7 +151,7 @@ def replace_with_best_rgb_match(color, img_rgb, rgb_values_to_target):
         (img_rgb[..., 1] == color[1]) & \
         (img_rgb[..., 2] == color[2])
     if not np.any(mask):
-        print("  Color not found in image.")
+        print("  Color not found in image.") # Should not ever be printed
         return img_rgb
     
     # Store the best target intensity for the color in the mapping
@@ -167,9 +162,9 @@ def replace_with_best_rgb_match(color, img_rgb, rgb_values_to_target):
     img_rgb[mask] = final_color
     return img_rgb
 
-# Load the dictionary from the pickle file
-with open('data\data_rgb_values_to_target.pkl', 'rb') as file:
-    rgb_values_to_target = pickle.load(file)
+# Load the dictionary from the pickle file TODO TODO: This necessary here???
+# with open('data\data_rgb_values_to_target.pkl', 'rb') as file:
+#    rgb_values_to_target = pickle.load(file)
 
 # Initialize modified image
 modified_img = original_img.copy()

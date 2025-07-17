@@ -1,6 +1,6 @@
 """
     Code crops and scales input images (mineralogy maps) to fit square. Necessary for input into MCRpy code
-    - Flynn Basehart
+    - FB
 """
 
 import cv2
@@ -9,13 +9,13 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 # === CONFIGURABLE TARGET OUTPUT SIZE ===
-TARGET_SIZE = 128 # Change this to 32, 64,128, 256, etc.
+TARGET_SIZE = 64 # Change this to 32, 64,128, 256, etc.
 
 # --- Load and process image ---
-input_path = "Important\Sample2MineralMaps\Granite4XRF.png"
+input_path = "Important\96x96Expansion.png"
 
 # --- Save image ---
-save_path = "Important\Sample2MineralMaps32x32\\32x32Granite6XRF.png"
+save_path = "Important\96x96ExpansionShrunkto32x32.png"
 save_image = False
 
 # Load image (BGR)
