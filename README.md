@@ -1,11 +1,13 @@
+>This github repo contains **3 major components** of the project titled "Numerical Modeling of Polyminerallic Aggregate Crushing". The first is the code for mineralogy map correlation and extrapolation in python (here in this readme). The second part expanding [MCRpy](https://github.com/NEFM-TUDresden/MCRpy) can be found in  the `MCRPY` folder or [here](MCRPY/README.md). The final part includes a Dream3D pipeline to export results in a way easily implemented for DEM analysis with LIGGGHTS, found under the `Dream3D` folder or [here](Dream3D/README.md).
+
 # Mineralogy map correlation and extrapolation in Python
 
-Obtaining mineralogy maps with XRF scans of a surface is an expensive and slow process. However, obtaining multiple mineralogy maps provides crucial information in microstructure characterization and reconstruction (MCR). In particular, they can act both as:
+Obtaining mineralogy maps with micro-XRF scans of a surface is an expensive and slow process. However, obtaining multiple mineralogy maps provides crucial information in microstructure characterization and reconstruction (MCR). In particular, they can act both as:
 
 1. The source of anistropic statistical descriptors used in characterization,
 2. Boundary conditions in the reconstruction of a given sample to create more representative microstructures. 
 
-This code aims to extract the color-mineral correlations between a normal RGB image and a XRF scan of a surface. These correlations are then extrapolated and applied to a new surface of the same sample. The result is a 'rough' mineralogy map that is representative of the surface without the cost of a typical XRF scan.
+As part of the project "Numerical Modeling of Polyminerallic Aggregate Crushing", this code aims to extract the color-mineral correlations between a normal RGB image and a XRF scan of a surface. These correlations are then extrapolated and applied to a new surface of the same sample. The result is a 'rough' mineralogy map that is representative of the surface without the cost of a typical XRF scan.
 
 ## Installation
 
@@ -80,8 +82,14 @@ Using the saved `.pkl` file, the correlations found can also be extrapolated and
 
 This is typically done for all other surfaces without a mineralogy map.
 
-These results can also be scaled and cropped for better usage in further MCR, such as with [MCRpy](https://github.com/NEFM-TUDresden/MCRpy) created by Paul Seibert at TU Dresden. An example result cropped to 128x128 is show below:
+## Further Applications
+
+These results can also be scaled and cropped (using `CropandScale.py`) for better usage in further MCR, such as with [MCRpy](https://github.com/NEFM-TUDresden/MCRpy) created by Paul Seibert and Alexander Rassloff at TU Dresden. An example result cropped to 128x128px is show below:
 
 <p align="center">
   <img src="docs\images\128x128Granite4XRF.png" style="height:200px;"/>
 </p>
+
+An in depth MCR application of using six surfaces obtained using the correlation and extrapolation method is given in the `README.md` inside the MCRPY folder found [here](MCRPY/README.md). The results of which are shown below:
+
+! TODO ! ADD RESULTS
