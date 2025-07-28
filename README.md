@@ -1,5 +1,9 @@
 >This github repo contains **3 major components** of the project titled "Numerical Modeling of Polyminerallic Aggregate Crushing". The first is the code for mineralogy map correlation and extrapolation in python (here in this readme). The second part expanding [MCRpy](https://github.com/NEFM-TUDresden/MCRpy) can be found in  the `MCRPY` folder or [here](MCRPY/README.md). The final part includes a Dream3D pipeline to export results in a way easily implemented for DEM analysis with LIGGGHTS, found under the `Dream3D` folder or [here](Dream3D/README.md).
 
+<p align="center">
+  <img src="docs\images\GraphicalAbstract.png" style="height:350px;"/>
+</p>
+
 # Mineralogy map correlation and extrapolation in Python
 
 Obtaining mineralogy maps with micro-XRF scans of a surface is an expensive and slow process. However, obtaining multiple mineralogy maps provides crucial information in microstructure characterization and reconstruction (MCR). In particular, they can act both as:
@@ -90,6 +94,15 @@ These results can also be scaled and cropped (using `CropandScale.py`) for bette
   <img src="docs\images\128x128Granite4XRF.png" style="height:200px;"/>
 </p>
 
-An in depth MCR application of using six surfaces obtained using the correlation and extrapolation method is given in the `README.md` inside the MCRPY folder found [here](MCRPY/README.md). The results of which are shown below:
+An in depth MCR application of using six surfaces obtained using the correlation and extrapolation method is given in the `README.md` inside the MCRPY folder found [here](MCRPY/README.md). The results of which are visualized below:
 
-! TODO ! ADD RESULTS
+
+<p align="center">
+  <img src="docs\images\MineralLabels.png" style="width:50%;"/>
+</p>
+<p align="center">
+  <img src="docs\images\MineralDistribution.png" style="width:100%;"/>
+</p>
+<p align="center">
+  <img src="docs\images\SampleClip.png" style="width:60%;"/>
+</p>

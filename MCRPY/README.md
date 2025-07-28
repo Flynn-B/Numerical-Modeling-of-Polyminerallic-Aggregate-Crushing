@@ -9,7 +9,7 @@ MCRpy was written by Paul Seibert and Alexander Rassloff in the lab of Markus Ka
 
 ## Installation
 
-It is **strongly** recommended to have MCRpy built in a seperate project. Furthermore, newer Python versions fail to run as expected! Python 3.8.0 has been tested and is **strongly** recommended.
+It is recommended to have MCRpy built in a seperate project. Furthermore, newer Python versions fail to run as expected! Python 3.8.0 has been tested and is **strongly** recommended.
 
 An editable install is needed, so clone repo.
 
@@ -30,6 +30,8 @@ Alternatively, original installation instructions can be found on [MCRpy Github]
 
 This step is critical for bounded generation! Copy the files from inside the `CustomPlugins` folder into the folder `mcrpy\optimizers`. 
 
+Note, boundaries are set and applied in the corresponding SPOptimizer plugin. 
+
 
 ### First Generation
 
@@ -47,7 +49,10 @@ To begin MCR of a given sample, the surface scans must be laid out in a manner c
 
 One such configuration is a stacked allignment of the six sides of a cube:
 
-! TODO ! Allignment Image. 
+
+<p align="center">
+  <img src="..\docs\images\64x64-1x6.png" style="width:64px;"/>
+</p>
 
 An image must imported as a format readable by MCRpy (`.npy`) using `ImportImageasNPY.py`. This code works by grouping colors by proximity to each other. If results are not desirable, some pre-processing may be needed to differentiate colors or manually group them. 
 
@@ -74,6 +79,8 @@ Additionally, within the parameters of ReconstructionSettings, the following des
 
 The resulting output is a 3D/2D `.npy` array. Note, this step can take many hours or even days. 
 
+To choose generation without bounds, set optimizer_type = `LBFGSB`. For 2D bounds set equal to `LBFGSB_2D_Bounds`. For 3D bounds set equal to `LBFGSB_3D_Bounds`. To set what the 2D or 3D bounds are, change the edge_img or the six side images in `SPOptimizer2D` or `SPOptimizer3D` respectively. Note, setting boundaries in `2DBoundaryConditionGeneration.py` or `3DBoundaryConditionGeneration.py` only initialize boundries and are optional. To have boundries continually applied, set boundries `SPOptimizer2D.py` or `SPOptimizer3D.py`.If in 3D, using higher resolution (>32 pixel side length) and multigrid_reconstruction = True (recommended), one must provide boundrary images for 32 and 64 pixel side lengths.
+
 #### Visualizing and Exporting Results
 
 Visualization of the results can be acheived multiple ways:
@@ -88,4 +95,19 @@ An easy way to view axial slices in all 3 dimensions is to set file path `data_n
 
 A final visualization can be achieved by setting file path in `3DVoxelDisplay.py` and running. However, note this is unoptimized and slow. It is mainly for a quick external check without needing to open Paraview. It does **not** provide an easy way to gauge quality as do the other two methods. 
 
+One can also export results as a sequence of axial image slices using `ExportNPYforDream3D.py`. This provides an easy way to reconstruct the sample in Dream3D for clump/cluster segmentation and STL output. More on this in `Dream3D` folder or [here](../Dream3D/README.md)
 
+A Paraview result for a bounded granite sample is visualized below:
+
+<p align="center">
+  <img src="..\docs\images\MineralLabels.png" style="width:50%;"/>
+</p>
+<p align="center">
+  <img src="..\docs\images\MineralDistribution.png" style="width:100%;"/>
+</p>
+<p align="center">
+  <img src="..\docs\images\SampleClip.png" style="width:60%;"/>
+</p>
+
+## Citations
+[Seibert et al., Microstructure Characterization and Reconstruction in Python: MCRpy, IMMJ, 2022](https://link.springer.com/article/10.1007/s40192-022-00273-4)
